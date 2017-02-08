@@ -78,6 +78,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mathematics\Mathematics.csproj">
+      <Project>{3af4c0ad-db3a-4d04-a7cd-a9878066f8bf}</Project>
+      <Name>Mathematics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NeuralNetwork\NeuralNetwork.csproj">
       <Project>{a81d215a-0422-440b-89b1-872c3942ff8e}</Project>
       <Name>NeuralNetwork</Name>

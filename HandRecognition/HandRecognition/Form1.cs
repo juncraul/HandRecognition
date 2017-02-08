@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NeuralNetwork;
+using Mathematics;
 
 namespace HandRecognition
 {
@@ -21,6 +22,8 @@ namespace HandRecognition
 
             network = new Network();
             network.InitializeNetwork(ApplicationSettings.InputNodes, ApplicationSettings.HiddenNodes, ApplicationSettings.OutputNodes, ApplicationSettings.LearningRate);
+            
+            Matrix test = network.QueryNetwrok(new Matrix(3, 1) { TheMatrix = new double[3, 1] { { 3 }, { 2 }, { 1 } } });
         }
     }
 }

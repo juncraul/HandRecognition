@@ -8,7 +8,7 @@ namespace Mathematics
 {
     public class Matrix
     {
-        public double[,] theMatrix { get; set; }
+        public double[,] TheMatrix { get; set; }
         public int Lines { get; set; }
         public int Columns { get; set; }
         
@@ -17,7 +17,7 @@ namespace Mathematics
         {
             Lines = lines;
             Columns = columns;
-            theMatrix = new double[Lines, Columns];
+            TheMatrix = new double[Lines, Columns];
         }
 
         public void GenerateRandomValuesBetween(double a, double b)
@@ -25,7 +25,24 @@ namespace Mathematics
             Random rand = new Random();
             for (int i = 0; i < Lines; i++)
                 for (int j = 0; j < Lines; j++)
-                    theMatrix[i, j] = rand.NextDouble() * (b - a) + a;
+                    TheMatrix[i, j] = rand.NextDouble() * (b - a) + a;
+        }
+
+        public static Matrix operator* (Matrix a, Matrix b)
+        {
+            Matrix temp = new Matrix(a.Lines, b.Columns);
+
+            for(int i = 0; i < temp.Lines; i ++)
+                for(int j = 0; j < temp.Columns; j ++)
+                {
+                    double sum = 0;
+                    for(int k = 0; k < a.Columns; k ++)
+                    {
+                        sum += a.TheMatrix[i, k] * a.TheMatrix[k, j];
+                    }
+                    temp.TheMatrix[i, j] = sum;
+                }
+            return temp;
         }
     }
 }
