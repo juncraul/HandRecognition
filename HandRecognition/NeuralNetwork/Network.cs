@@ -37,14 +37,22 @@ namespace NeuralNetwork
             Whidden_output.GenerateRandomValuesBetween(-Math.Pow(OutputNodes, -0.5), Math.Pow(OutputNodes, -0.5));
         }
 
-        public void TrainNetwrok()
+        public void TrainNetwrok(Matrix inputs, Matrix target)
         {
-            
+            Matrix final_outputs = QueryNetwrok(inputs);
+
+            Matrix output_errors = target - final_outputs;
+
+            Matrix hidden_errors = Whidden_output.Transpose() * output_errors;
+
+            Whidden_output += LearningRate * ((output_errors * final_outputs * (1.0 - final_outputs)) * Hidden_Outputs.Transpose());
+
+            Winput_hidden += LearningRate * ((hidden_errors * Hidden_Outputs * (1.0 - Hidden_Outputs)) * inputs.Transpose());
         }
 
-        public Matrix QueryNetwrok(Matrix Inputs)
+        public Matrix QueryNetwrok(Matrix inputs)
         {
-            Hidden_Inputs = Winput_hidden * Inputs;
+            Hidden_Inputs = Winput_hidden * inputs;
 
             for (int i = 0; i < HiddenNodes; i++)
             {
@@ -53,7 +61,7 @@ namespace NeuralNetwork
 
             Final_Inputs = Whidden_output * Hidden_Outputs;
 
-            for (int i = 0; i < HiddenNodes; i++)
+            for (int i = 0; i < OutputNodes; i++)
             {
                 Final_Outputs.TheMatrix[i, 0] = ActivationFunction(Final_Inputs.TheMatrix[i, 0]);
             }
