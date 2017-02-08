@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandRecognition", "HandRecognition\HandRecognition.csproj", "{CFC627DB-7028-4EAA-A0CE-2F834530B70B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "NeuralNetwork\NeuralNetwork.csproj", "{A81D215A-0422-440B-89B1-872C3942FF8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics", "Mathematics\Mathematics.csproj", "{3AF4C0AD-DB3A-4D04-A7CD-A9878066F8BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{CFC627DB-7028-4EAA-A0CE-2F834530B70B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFC627DB-7028-4EAA-A0CE-2F834530B70B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFC627DB-7028-4EAA-A0CE-2F834530B70B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A81D215A-0422-440B-89B1-872C3942FF8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A81D215A-0422-440B-89B1-872C3942FF8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A81D215A-0422-440B-89B1-872C3942FF8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A81D215A-0422-440B-89B1-872C3942FF8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AF4C0AD-DB3A-4D04-A7CD-A9878066F8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AF4C0AD-DB3A-4D04-A7CD-A9878066F8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AF4C0AD-DB3A-4D04-A7CD-A9878066F8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AF4C0AD-DB3A-4D04-A7CD-A9878066F8BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
