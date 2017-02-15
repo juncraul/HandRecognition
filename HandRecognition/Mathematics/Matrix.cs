@@ -22,7 +22,7 @@ namespace Mathematics
 
         public void GenerateRandomValuesBetween(double a, double b)
         {
-            Random rand = new Random();
+            Random rand = new Random(0);
             for (int i = 0; i < Lines; i++)
                 for (int j = 0; j < Columns; j++)
                     TheMatrix[i, j] = rand.NextDouble() * (b - a) + a;
@@ -55,8 +55,19 @@ namespace Mathematics
             return maxi;
         }
 
+        public void AddToLine(Matrix m, int line)
+        {
+            for(int i = 0; i < m.Columns; i ++)
+            {
+                TheMatrix[line, i] += m.TheMatrix[0, i];
+            }
+        }
+
         public static Matrix operator *(Matrix a, Matrix b)
         {
+            if (a.Columns != b.Lines)
+                throw new Exception();
+
             Matrix temp = new Matrix(a.Lines, b.Columns);
 
             for (int i = 0; i < temp.Lines; i++)

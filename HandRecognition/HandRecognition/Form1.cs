@@ -36,10 +36,7 @@ namespace HandRecognition
             bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(bitmap);
             AllocConsole();
-
-            //MatrixTest();
-            //MatrixTestAdd();
-
+            
             network = new Network();
             network.InitializeNetwork(ApplicationSettings.InputNodes, ApplicationSettings.HiddenNodes, ApplicationSettings.OutputNodes, ApplicationSettings.LearningRate);
         }
@@ -133,9 +130,6 @@ namespace HandRecognition
 
                 if (count % 200 == 0)
                     Console.WriteLine("Trains conducted so far: " + count);
-
-                if (count > 10000)
-                    break;
             }
         }
 
@@ -143,46 +137,6 @@ namespace HandRecognition
         {
             openFileDialog1.ShowDialog();
             textBoxPathTrain.Text = openFileDialog1.FileName;
-        }
-
-        private void MatrixTest()
-        {
-            Matrix a = new Matrix(2, 3);
-            Matrix b = new Matrix(3, 2);
-
-            a.TheMatrix[0, 0] = 1;
-            a.TheMatrix[0, 1] = 2;
-            a.TheMatrix[0, 2] = 3;
-            a.TheMatrix[1, 0] = 4;
-            a.TheMatrix[1, 1] = 5;
-            a.TheMatrix[1, 2] = 6;
-
-            b.TheMatrix[0, 0] = 7;
-            b.TheMatrix[0, 1] = 8;
-            b.TheMatrix[1, 0] = 9;
-            b.TheMatrix[1, 1] = 10;
-            b.TheMatrix[2, 0] = 11;
-            b.TheMatrix[2, 1] = 12;
-
-            MessageBox.Show((a * b).ToString());
-        }
-
-        private void MatrixTestAdd()
-        {
-            Matrix a = new Matrix(2, 2);
-            Matrix b = new Matrix(2, 2);
-
-            a.TheMatrix[0, 0] = 1;
-            a.TheMatrix[0, 1] = 2;
-            a.TheMatrix[1, 0] = 4;
-            a.TheMatrix[1, 1] = 5;
-
-            b.TheMatrix[0, 0] = 7;
-            b.TheMatrix[0, 1] = 8;
-            b.TheMatrix[1, 0] = 9;
-            b.TheMatrix[1, 1] = 10;
-
-            MessageBox.Show((a + b).ToString());
         }
 
         private void buttonBrowseTest_Click(object sender, EventArgs e)
@@ -221,6 +175,116 @@ namespace HandRecognition
             Console.WriteLine("Total Correct Results: " + correct);
             Console.WriteLine( ((float)correct/total * 100) + "% match rate");
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Network n = new Network();
+            network.InitializeNetwork(3, 4, 1, 0.3f);
+            
+            for(int i = 0; i < 60000; i ++)
+            {
+                Matrix inputMatrix1 = new Matrix(3, 1);
+                inputMatrix1.TheMatrix[0, 0] = 0.01f;
+                inputMatrix1.TheMatrix[1, 0] = 0.01f;
+                inputMatrix1.TheMatrix[2, 0] = 1;
+                Matrix targetMatrix1 = new Matrix(1, 1);
+                targetMatrix1.TheMatrix[0, 0] = 0;
+                network.TrainNetwrok(inputMatrix1, targetMatrix1);
+
+                Matrix inputMatrix2 = new Matrix(3, 1);
+                inputMatrix2.TheMatrix[0, 0] = 0.01f;
+                inputMatrix2.TheMatrix[1, 0] = 1;
+                inputMatrix2.TheMatrix[2, 0] = 1;
+                Matrix targetMatrix2 = new Matrix(1, 1);
+                targetMatrix2.TheMatrix[0, 0] = 1;
+                network.TrainNetwrok(inputMatrix2, targetMatrix2);
+
+                Matrix inputMatrix3 = new Matrix(3, 1);
+                inputMatrix3.TheMatrix[0, 0] = 1;
+                inputMatrix3.TheMatrix[1, 0] = 0.01f;
+                inputMatrix3.TheMatrix[2, 0] = 1;
+                Matrix targetMatrix3 = new Matrix(1, 1);
+                targetMatrix3.TheMatrix[0, 0] = 1;
+                network.TrainNetwrok(inputMatrix3, targetMatrix3);
+
+                Matrix inputMatrix4 = new Matrix(3, 1);
+                inputMatrix4.TheMatrix[0, 0] = 1;
+                inputMatrix4.TheMatrix[1, 0] = 1;
+                inputMatrix4.TheMatrix[2, 0] = 1;
+                Matrix targetMatrix4 = new Matrix(1, 1);
+                targetMatrix4.TheMatrix[0, 0] = 0;
+                network.TrainNetwrok(inputMatrix4, targetMatrix4);
+
+                if (i % 100 == 0)
+                {
+                    double error = 0;
+                    double output;
+                    output = network.QueryNetwrok(inputMatrix1).TheMatrix[0, 0];
+                    error += Math.Abs(output - targetMatrix1.TheMatrix[0, 0]);
+
+                    output = network.QueryNetwrok(inputMatrix2).TheMatrix[0, 0];
+                    error += Math.Abs(output - targetMatrix2.TheMatrix[0, 0]);
+
+                    output = network.QueryNetwrok(inputMatrix3).TheMatrix[0, 0];
+                    error += Math.Abs(output - targetMatrix3.TheMatrix[0, 0]);
+
+                    output = network.QueryNetwrok(inputMatrix4).TheMatrix[0, 0];
+                    error += Math.Abs(output - targetMatrix4.TheMatrix[0, 0]);
+                    
+                    Console.WriteLine(error);
+                }
+            }
+        }
+
+        bool drawOnCanvas = false;
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!drawOnCanvas) return;
+            SolidBrush brush = new SolidBrush(Color.Black);
+            graphics.FillRectangle(brush, e.X, e.Y, 10, 10);
+
+            pictureBox1.Image = bitmap;
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            SolidBrush brush = new SolidBrush(Color.Black);
+            brush.Color = Color.Blue;
+            graphics.FillRectangle(brush, 0, 0, 1000, 1000);
+            drawOnCanvas = true;
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            drawOnCanvas = false;
+
+            string text= ReadCanvas();
+
+            Matrix mat = network.QueryNetwrok(GetMatrix(text));
+            DrawArray(text);
+
+            MessageBox.Show(mat.ToString());
+        }
+
+        private string ReadCanvas()
+        {
+            string temp = "";
+            Bitmap bitmap = new Bitmap(pictureBox1.Image);
+            for (int i = 0; i < 28; i ++)
+            {
+                for(int j = 0; j < 28; j ++)
+                {
+                    Color color = bitmap.GetPixel(j * 10, i * 10);
+                    temp += color.B < 50 ? "255" : "0";
+                    if(i != 27 || j != 27)
+                    {
+                        temp += ",";
+                    }
+                }
+            }
+            return temp;
         }
     }
 }

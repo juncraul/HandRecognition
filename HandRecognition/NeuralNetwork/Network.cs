@@ -38,10 +38,22 @@ namespace NeuralNetwork
             Matrix final_outputs = QueryNetwrok(inputs);
             Matrix output_errors = target - final_outputs;
             Matrix hidden_errors = WeighHidden_output.Transpose() * output_errors;
+            Matrix Hidden_Outputs_Transpose = Hidden_Outputs.Transpose();
+            Matrix inputs_Transpose = inputs.Transpose();
 
-            WeighHidden_output += LearningRate * ((output_errors * final_outputs * (1.0 - final_outputs)) * Hidden_Outputs.Transpose());
+            for (int i = 0; i < output_errors.Lines; i ++)
+            {
+                double change = (output_errors.TheMatrix[i, 0] * final_outputs.TheMatrix[i, 0] * (1.0 - final_outputs.TheMatrix[i, 0]));
+                WeighHidden_output.AddToLine(LearningRate * (change * Hidden_Outputs_Transpose), i);
+            }
+            //WeighHidden_output += LearningRate * ((output_errors * final_outputs * (1.0 - final_outputs)) * Hidden_Outputs.Transpose());
 
-            WeightInput_hidden += LearningRate * ((hidden_errors * Hidden_Outputs * (1.0 - Hidden_Outputs)) * inputs.Transpose());
+            for (int i = 0; i < hidden_errors.Lines; i++)
+            {
+                double change = (hidden_errors.TheMatrix[i, 0] * Hidden_Outputs.TheMatrix[i, 0] * (1.0 - Hidden_Outputs.TheMatrix[i, 0]));
+                WeightInput_hidden.AddToLine(LearningRate * (change * inputs_Transpose), i);
+            }
+            //WeightInput_hidden += LearningRate * ((hidden_errors * Hidden_Outputs * (1.0 - Hidden_Outputs)) * inputs.Transpose());
         }
 
         public Matrix QueryNetwrok(Matrix inputs)
