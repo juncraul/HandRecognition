@@ -24,7 +24,7 @@ namespace Mathematics
         {
             Random rand = new Random();
             for (int i = 0; i < Lines; i++)
-                for (int j = 0; j < Lines; j++)
+                for (int j = 0; j < Columns; j++)
                     TheMatrix[i, j] = rand.NextDouble() * (b - a) + a;
         }
         
@@ -37,6 +37,22 @@ namespace Mathematics
                     temp.TheMatrix[i, j] = TheMatrix[j, i];
 
             return temp;
+        }
+
+        public int GetMaxValueIndex()
+        {
+            double max = -10000;
+            int maxi = -1;
+            int maxj = -1;
+            for (int i = 0; i < Lines; i++)
+                for (int j = 0; j < Columns; j++)
+                    if (TheMatrix[i, j] > max)
+                    {
+                        max = TheMatrix[i, j];
+                        maxi = i;
+                        maxj = j;
+                    }
+            return maxi;
         }
 
         public static Matrix operator *(Matrix a, Matrix b)

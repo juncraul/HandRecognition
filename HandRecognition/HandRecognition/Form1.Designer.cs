@@ -30,10 +30,13 @@
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.buttonTrain = new System.Windows.Forms.Button();
-            this.textBoxPath = new System.Windows.Forms.TextBox();
-            this.ButtonBrowse = new System.Windows.Forms.Button();
+            this.textBoxPathTrain = new System.Windows.Forms.TextBox();
+            this.ButtonBrowseTrain = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.buttonNext = new System.Windows.Forms.Button();
+            this.buttonBrowseTest = new System.Windows.Forms.Button();
+            this.textBoxPathTest = new System.Windows.Forms.TextBox();
+            this.buttonTest = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,25 +56,25 @@
             this.buttonTrain.TabIndex = 1;
             this.buttonTrain.Text = "Train";
             this.buttonTrain.UseVisualStyleBackColor = true;
-            this.buttonTrain.Click += new System.EventHandler(this.buttonBrowse_Click);
+            this.buttonTrain.Click += new System.EventHandler(this.buttonTrain_Click);
             // 
-            // textBoxPath
+            // textBoxPathTrain
             // 
-            this.textBoxPath.Location = new System.Drawing.Point(375, 15);
-            this.textBoxPath.Name = "textBoxPath";
-            this.textBoxPath.Size = new System.Drawing.Size(310, 20);
-            this.textBoxPath.TabIndex = 2;
-            this.textBoxPath.Text = "D:\\Downloads\\mnist_train_100.csv";
+            this.textBoxPathTrain.Location = new System.Drawing.Point(375, 15);
+            this.textBoxPathTrain.Name = "textBoxPathTrain";
+            this.textBoxPathTrain.Size = new System.Drawing.Size(436, 20);
+            this.textBoxPathTrain.TabIndex = 2;
+            this.textBoxPathTrain.Text = "D:\\Programming\\Resources\\Neural Network training_tests\\mnist_train_60000.csv";
             // 
-            // ButtonBrowse
+            // ButtonBrowseTrain
             // 
-            this.ButtonBrowse.Location = new System.Drawing.Point(375, 42);
-            this.ButtonBrowse.Name = "ButtonBrowse";
-            this.ButtonBrowse.Size = new System.Drawing.Size(75, 23);
-            this.ButtonBrowse.TabIndex = 3;
-            this.ButtonBrowse.Text = "Browse";
-            this.ButtonBrowse.UseVisualStyleBackColor = true;
-            this.ButtonBrowse.Click += new System.EventHandler(this.ButtonBrowse_Click_1);
+            this.ButtonBrowseTrain.Location = new System.Drawing.Point(817, 15);
+            this.ButtonBrowseTrain.Name = "ButtonBrowseTrain";
+            this.ButtonBrowseTrain.Size = new System.Drawing.Size(119, 23);
+            this.ButtonBrowseTrain.TabIndex = 3;
+            this.ButtonBrowseTrain.Text = "Browse Train";
+            this.ButtonBrowseTrain.UseVisualStyleBackColor = true;
+            this.ButtonBrowseTrain.Click += new System.EventHandler(this.ButtonBrowse_Click);
             // 
             // openFileDialog1
             // 
@@ -87,14 +90,45 @@
             this.buttonNext.UseVisualStyleBackColor = true;
             this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
             // 
+            // buttonBrowseTest
+            // 
+            this.buttonBrowseTest.Location = new System.Drawing.Point(817, 44);
+            this.buttonBrowseTest.Name = "buttonBrowseTest";
+            this.buttonBrowseTest.Size = new System.Drawing.Size(119, 23);
+            this.buttonBrowseTest.TabIndex = 6;
+            this.buttonBrowseTest.Text = "Browse Test";
+            this.buttonBrowseTest.UseVisualStyleBackColor = true;
+            this.buttonBrowseTest.Click += new System.EventHandler(this.buttonBrowseTest_Click);
+            // 
+            // textBoxPathTest
+            // 
+            this.textBoxPathTest.Location = new System.Drawing.Point(375, 46);
+            this.textBoxPathTest.Name = "textBoxPathTest";
+            this.textBoxPathTest.Size = new System.Drawing.Size(436, 20);
+            this.textBoxPathTest.TabIndex = 5;
+            this.textBoxPathTest.Text = "D:\\Programming\\Resources\\Neural Network training_tests\\mnist_test_10000.csv";
+            // 
+            // buttonTest
+            // 
+            this.buttonTest.Location = new System.Drawing.Point(376, 285);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(75, 23);
+            this.buttonTest.TabIndex = 7;
+            this.buttonTest.Text = "Test";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(682, 522);
+            this.ClientSize = new System.Drawing.Size(1122, 522);
+            this.Controls.Add(this.buttonTest);
+            this.Controls.Add(this.buttonBrowseTest);
+            this.Controls.Add(this.textBoxPathTest);
             this.Controls.Add(this.buttonNext);
-            this.Controls.Add(this.ButtonBrowse);
-            this.Controls.Add(this.textBoxPath);
+            this.Controls.Add(this.ButtonBrowseTrain);
+            this.Controls.Add(this.textBoxPathTrain);
             this.Controls.Add(this.buttonTrain);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
@@ -109,10 +143,13 @@
 
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button buttonTrain;
-        private System.Windows.Forms.TextBox textBoxPath;
-        private System.Windows.Forms.Button ButtonBrowse;
+        private System.Windows.Forms.TextBox textBoxPathTrain;
+        private System.Windows.Forms.Button ButtonBrowseTrain;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button buttonNext;
+        private System.Windows.Forms.Button buttonBrowseTest;
+        private System.Windows.Forms.TextBox textBoxPathTest;
+        private System.Windows.Forms.Button buttonTest;
     }
 }
 
