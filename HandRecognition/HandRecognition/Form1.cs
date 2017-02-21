@@ -180,7 +180,7 @@ namespace HandRecognition
         private void button1_Click(object sender, EventArgs e)
         {
             Network n = new Network();
-            network.InitializeNetwork(3, 4, 1, 0.3f);
+            n.InitializeNetwork(3, 4, 1, 0.3f);
             
             for(int i = 0; i < 60000; i ++)
             {
@@ -190,7 +190,7 @@ namespace HandRecognition
                 inputMatrix1.TheMatrix[2, 0] = 1;
                 Matrix targetMatrix1 = new Matrix(1, 1);
                 targetMatrix1.TheMatrix[0, 0] = 0;
-                network.TrainNetwrok(inputMatrix1, targetMatrix1);
+                n.TrainNetwrok(inputMatrix1, targetMatrix1);
 
                 Matrix inputMatrix2 = new Matrix(3, 1);
                 inputMatrix2.TheMatrix[0, 0] = 0.01f;
@@ -198,7 +198,7 @@ namespace HandRecognition
                 inputMatrix2.TheMatrix[2, 0] = 1;
                 Matrix targetMatrix2 = new Matrix(1, 1);
                 targetMatrix2.TheMatrix[0, 0] = 1;
-                network.TrainNetwrok(inputMatrix2, targetMatrix2);
+                n.TrainNetwrok(inputMatrix2, targetMatrix2);
 
                 Matrix inputMatrix3 = new Matrix(3, 1);
                 inputMatrix3.TheMatrix[0, 0] = 1;
@@ -206,7 +206,7 @@ namespace HandRecognition
                 inputMatrix3.TheMatrix[2, 0] = 1;
                 Matrix targetMatrix3 = new Matrix(1, 1);
                 targetMatrix3.TheMatrix[0, 0] = 1;
-                network.TrainNetwrok(inputMatrix3, targetMatrix3);
+                n.TrainNetwrok(inputMatrix3, targetMatrix3);
 
                 Matrix inputMatrix4 = new Matrix(3, 1);
                 inputMatrix4.TheMatrix[0, 0] = 1;
@@ -214,22 +214,22 @@ namespace HandRecognition
                 inputMatrix4.TheMatrix[2, 0] = 1;
                 Matrix targetMatrix4 = new Matrix(1, 1);
                 targetMatrix4.TheMatrix[0, 0] = 0;
-                network.TrainNetwrok(inputMatrix4, targetMatrix4);
+                n.TrainNetwrok(inputMatrix4, targetMatrix4);
 
                 if (i % 100 == 0)
                 {
                     double error = 0;
                     double output;
-                    output = network.QueryNetwrok(inputMatrix1).TheMatrix[0, 0];
+                    output = n.QueryNetwrok(inputMatrix1).TheMatrix[0, 0];
                     error += Math.Abs(output - targetMatrix1.TheMatrix[0, 0]);
 
-                    output = network.QueryNetwrok(inputMatrix2).TheMatrix[0, 0];
+                    output = n.QueryNetwrok(inputMatrix2).TheMatrix[0, 0];
                     error += Math.Abs(output - targetMatrix2.TheMatrix[0, 0]);
 
-                    output = network.QueryNetwrok(inputMatrix3).TheMatrix[0, 0];
+                    output = n.QueryNetwrok(inputMatrix3).TheMatrix[0, 0];
                     error += Math.Abs(output - targetMatrix3.TheMatrix[0, 0]);
 
-                    output = network.QueryNetwrok(inputMatrix4).TheMatrix[0, 0];
+                    output = n.QueryNetwrok(inputMatrix4).TheMatrix[0, 0];
                     error += Math.Abs(output - targetMatrix4.TheMatrix[0, 0]);
                     
                     Console.WriteLine(error);
