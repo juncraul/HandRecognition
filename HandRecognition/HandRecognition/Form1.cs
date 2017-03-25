@@ -36,7 +36,12 @@ namespace HandRecognition
             bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(bitmap);
             AllocConsole();
-            
+
+            MessageBox.Show("If output window doesn't show anything, then one problem could be that you use VS2017");
+
+            textBoxPathTrain.Text = @"..\..\Resources\mnist_train_6000.csv";
+            textBoxPathTest.Text = @"..\..\Resources\mnist_test_1000.csv";
+
             network = new Network();
             network.InitializeNetwork(ApplicationSettings.InputNodes, ApplicationSettings.HiddenNodes, ApplicationSettings.OutputNodes, ApplicationSettings.LearningRate);
         }
@@ -167,13 +172,13 @@ namespace HandRecognition
                 total++;
                 correct += target == actualValue ? 1 : 0;
 
-                if(total % 200 == 0)
-                Console.WriteLine("Tests conducted so far: " + total);
+                if (total % 200 == 0)
+                    Console.WriteLine("Tests conducted so far: " + total);
             }
 
             Console.WriteLine("Total Tests: " + total);
             Console.WriteLine("Total Correct Results: " + correct);
-            Console.WriteLine( ((float)correct/total * 100) + "% match rate");
+            Console.WriteLine(((float)correct / total * 100) + "% match rate");
 
         }
 
@@ -181,8 +186,8 @@ namespace HandRecognition
         {
             Network n = new Network();
             n.InitializeNetwork(3, 4, 1, 0.3f);
-            
-            for(int i = 0; i < 60000; i ++)
+
+            for (int i = 0; i < 60000; i++)
             {
                 Matrix inputMatrix1 = new Matrix(3, 1);
                 inputMatrix1.TheMatrix[0, 0] = 0.01f;
@@ -231,7 +236,7 @@ namespace HandRecognition
 
                     output = n.QueryNetwrok(inputMatrix4).TheMatrix[0, 0];
                     error += Math.Abs(output - targetMatrix4.TheMatrix[0, 0]);
-                    
+
                     Console.WriteLine(error);
                 }
             }
@@ -260,25 +265,27 @@ namespace HandRecognition
         {
             drawOnCanvas = false;
 
-            string text= ReadCanvas();
+            if (pictureBox1.Image == null) return;
+            string text = ReadCanvas();
 
             Matrix mat = network.QueryNetwrok(GetMatrix(text));
             DrawArray(text);
 
-            MessageBox.Show(mat.ToString());
+            mat.Max(out int maxi, out int maxj);
+            MessageBox.Show(mat.ToString() + Environment.NewLine + "Your number is: " + maxi);
         }
 
         private string ReadCanvas()
         {
             string temp = "";
             Bitmap bitmap = new Bitmap(pictureBox1.Image);
-            for (int i = 0; i < 28; i ++)
+            for (int i = 0; i < 28; i++)
             {
-                for(int j = 0; j < 28; j ++)
+                for (int j = 0; j < 28; j++)
                 {
                     Color color = bitmap.GetPixel(j * 10, i * 10);
                     temp += color.B < 50 ? "255" : "0";
-                    if(i != 27 || j != 27)
+                    if (i != 27 || j != 27)
                     {
                         temp += ",";
                     }

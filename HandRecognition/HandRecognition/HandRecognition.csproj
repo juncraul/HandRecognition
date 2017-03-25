@@ -76,6 +76,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\mnist_test_10.csv" />
+    <None Include="Resources\mnist_test_1000.csv" />
+    <None Include="Resources\mnist_train_100.csv" />
+    <None Include="Resources\mnist_train_6000.csv" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

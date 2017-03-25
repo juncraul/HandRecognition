@@ -27,7 +27,7 @@ namespace Mathematics
                 for (int j = 0; j < Columns; j++)
                     TheMatrix[i, j] = rand.NextDouble() * (b - a) + a;
         }
-        
+
         public Matrix Transpose()
         {
             Matrix temp = new Matrix(Columns, Lines);
@@ -57,7 +57,7 @@ namespace Mathematics
 
         public void AddToLine(Matrix m, int line)
         {
-            for(int i = 0; i < m.Columns; i ++)
+            for (int i = 0; i < m.Columns; i++)
             {
                 TheMatrix[line, i] += m.TheMatrix[0, i];
             }
@@ -153,28 +153,15 @@ namespace Mathematics
             return b * (-1) + a;
         }
 
-        public override string ToString()
+        public double Max(out int maxi, out int maxj)
         {
-            string s = "";
-            double min = 10000;
             double max = -10000;
-            int mini = -1;
-            int minj = -1;
-            int maxi = -1;
-            int maxj = -1;
-            for(int i = 0; i < Lines; i ++)
+            maxi = -1;
+            maxj = -1;
+            for (int i = 0; i < Lines; i++)
             {
-                for(int j = 0; j < Columns; j ++)
+                for (int j = 0; j < Columns; j++)
                 {
-                    s += TheMatrix[i, j] + " ";
-
-                    if(TheMatrix[i, j] < min)
-                    {
-                        min = TheMatrix[i, j];
-                        mini = i;
-                        minj = j;
-                    }
-
                     if (TheMatrix[i, j] > max)
                     {
                         max = TheMatrix[i, j];
@@ -182,9 +169,51 @@ namespace Mathematics
                         maxj = j;
                     }
                 }
+            }
+            return TheMatrix[maxi, maxj];
+        }
+
+        public double Min(out int mini, out int minj)
+        {
+            double min = 10000;
+            mini = -1;
+            minj = -1;
+            for (int i = 0; i < Lines; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+                    if (TheMatrix[i, j] < min)
+                    {
+                        min = TheMatrix[i, j];
+                        mini = i;
+                        minj = j;
+                    }
+                }
+            }
+            return TheMatrix[mini, minj];
+        }
+
+        public override string ToString()
+        {
+            string s = "";
+            double min;
+            double max;
+            int mini;
+            int minj;
+            int maxi;
+            int maxj;
+            for (int i = 0; i < Lines; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+                    s += TheMatrix[i, j] + " ";
+                }
                 s += Environment.NewLine;
             }
             s += Environment.NewLine;
+
+            max = Max(out maxi, out maxj);
+            min = Min(out mini, out minj);
 
             s += "Max: " + max + " at: [" + maxi + ", " + maxj + "]" + Environment.NewLine;
             s += "Min: " + min + " at: [" + mini + ", " + minj + "]" + Environment.NewLine;
