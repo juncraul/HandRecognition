@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mathematics
 {
@@ -11,7 +7,6 @@ namespace Mathematics
         public double[,] TheMatrix { get; set; }
         public int Lines { get; set; }
         public int Columns { get; set; }
-
 
         public Matrix(int lines, int columns)
         {
@@ -22,18 +17,18 @@ namespace Mathematics
 
         public void GenerateRandomValuesBetween(double a, double b)
         {
-            Random rand = new Random(0);
-            for (int i = 0; i < Lines; i++)
-                for (int j = 0; j < Columns; j++)
+            var rand = new Random(0);
+            for (var i = 0; i < Lines; i++)
+                for (var j = 0; j < Columns; j++)
                     TheMatrix[i, j] = rand.NextDouble() * (b - a) + a;
         }
 
         public Matrix Transpose()
         {
-            Matrix temp = new Matrix(Columns, Lines);
+            var temp = new Matrix(Columns, Lines);
 
-            for (int i = 0; i < temp.Lines; i++)
-                for (int j = 0; j < temp.Columns; j++)
+            for (var i = 0; i < temp.Lines; i++)
+                for (var j = 0; j < temp.Columns; j++)
                     temp.TheMatrix[i, j] = TheMatrix[j, i];
 
             return temp;
@@ -42,22 +37,23 @@ namespace Mathematics
         public int GetMaxValueIndex()
         {
             double max = -10000;
-            int maxi = -1;
-            int maxj = -1;
-            for (int i = 0; i < Lines; i++)
-                for (int j = 0; j < Columns; j++)
+            var maxi = -1;
+            var maxj = -1;
+            for (var i = 0; i < Lines; i++)
+                for (var j = 0; j < Columns; j++)
                     if (TheMatrix[i, j] > max)
                     {
                         max = TheMatrix[i, j];
                         maxi = i;
                         maxj = j;
                     }
+
             return maxi;
         }
 
         public void AddToLine(Matrix m, int line)
         {
-            for (int i = 0; i < m.Columns; i++)
+            for (var i = 0; i < m.Columns; i++)
             {
                 TheMatrix[line, i] += m.TheMatrix[0, i];
             }
@@ -68,27 +64,29 @@ namespace Mathematics
             if (a.Columns != b.Lines)
                 throw new Exception();
 
-            Matrix temp = new Matrix(a.Lines, b.Columns);
+            var temp = new Matrix(a.Lines, b.Columns);
 
-            for (int i = 0; i < temp.Lines; i++)
-                for (int j = 0; j < temp.Columns; j++)
+            for (var i = 0; i < temp.Lines; i++)
+                for (var j = 0; j < temp.Columns; j++)
                 {
                     double sum = 0;
-                    for (int k = 0; k < a.Columns; k++)
+                    for (var k = 0; k < a.Columns; k++)
                     {
                         sum += a.TheMatrix[i, k] * b.TheMatrix[k, j];
                     }
+
                     temp.TheMatrix[i, j] = sum;
                 }
+
             return temp;
         }
 
         public static Matrix operator -(Matrix a, Matrix b)
         {
-            Matrix temp = new Matrix(a.Lines, a.Columns);
+            var temp = new Matrix(a.Lines, a.Columns);
 
-            for (int i = 0; i < a.Lines; i++)
-                for (int j = 0; j < a.Columns; j++)
+            for (var i = 0; i < a.Lines; i++)
+                for (var j = 0; j < a.Columns; j++)
                     temp.TheMatrix[i, j] = a.TheMatrix[i, j] - b.TheMatrix[i, j];
 
             return temp;
@@ -96,10 +94,10 @@ namespace Mathematics
 
         public static Matrix operator +(Matrix a, Matrix b)
         {
-            Matrix temp = new Matrix(a.Lines, a.Columns);
+            var temp = new Matrix(a.Lines, a.Columns);
 
-            for (int i = 0; i < a.Lines; i++)
-                for (int j = 0; j < a.Columns; j++)
+            for (var i = 0; i < a.Lines; i++)
+                for (var j = 0; j < a.Columns; j++)
                     temp.TheMatrix[i, j] = a.TheMatrix[i, j] + b.TheMatrix[i, j];
 
             return temp;
@@ -107,10 +105,10 @@ namespace Mathematics
 
         public static Matrix operator +(Matrix a, double b)
         {
-            Matrix temp = new Matrix(a.Lines, a.Columns);
+            var temp = new Matrix(a.Lines, a.Columns);
 
-            for (int i = 0; i < a.Lines; i++)
-                for (int j = 0; j < a.Columns; j++)
+            for (var i = 0; i < a.Lines; i++)
+                for (var j = 0; j < a.Columns; j++)
                     temp.TheMatrix[i, j] = a.TheMatrix[i, j] + b;
 
             return temp;
@@ -118,10 +116,10 @@ namespace Mathematics
 
         public static Matrix operator -(Matrix a, double b)
         {
-            Matrix temp = new Matrix(a.Lines, a.Columns);
+            var temp = new Matrix(a.Lines, a.Columns);
 
-            for (int i = 0; i < a.Lines; i++)
-                for (int j = 0; j < a.Columns; j++)
+            for (var i = 0; i < a.Lines; i++)
+                for (var j = 0; j < a.Columns; j++)
                     temp.TheMatrix[i, j] = a.TheMatrix[i, j] - b;
 
             return temp;
@@ -129,10 +127,10 @@ namespace Mathematics
 
         public static Matrix operator *(Matrix a, double b)
         {
-            Matrix temp = new Matrix(a.Lines, a.Columns);
+            var temp = new Matrix(a.Lines, a.Columns);
 
-            for (int i = 0; i < a.Lines; i++)
-                for (int j = 0; j < a.Columns; j++)
+            for (var i = 0; i < a.Lines; i++)
+                for (var j = 0; j < a.Columns; j++)
                     temp.TheMatrix[i, j] = a.TheMatrix[i, j] * b;
 
             return temp;
@@ -158,9 +156,9 @@ namespace Mathematics
             double max = -10000;
             maxi = -1;
             maxj = -1;
-            for (int i = 0; i < Lines; i++)
+            for (var i = 0; i < Lines; i++)
             {
-                for (int j = 0; j < Columns; j++)
+                for (var j = 0; j < Columns; j++)
                 {
                     if (TheMatrix[i, j] > max)
                     {
@@ -170,6 +168,7 @@ namespace Mathematics
                     }
                 }
             }
+
             return TheMatrix[maxi, maxj];
         }
 
@@ -178,9 +177,9 @@ namespace Mathematics
             double min = 10000;
             mini = -1;
             minj = -1;
-            for (int i = 0; i < Lines; i++)
+            for (var i = 0; i < Lines; i++)
             {
-                for (int j = 0; j < Columns; j++)
+                for (var j = 0; j < Columns; j++)
                 {
                     if (TheMatrix[i, j] < min)
                     {
@@ -190,26 +189,29 @@ namespace Mathematics
                     }
                 }
             }
+
             return TheMatrix[mini, minj];
         }
 
         public override string ToString()
         {
-            string s = "";
+            var s = "";
             double min;
             double max;
             int mini;
             int minj;
             int maxi;
             int maxj;
-            for (int i = 0; i < Lines; i++)
+            for (var i = 0; i < Lines; i++)
             {
-                for (int j = 0; j < Columns; j++)
+                for (var j = 0; j < Columns; j++)
                 {
                     s += TheMatrix[i, j] + " ";
                 }
+
                 s += Environment.NewLine;
             }
+
             s += Environment.NewLine;
 
             max = Max(out maxi, out maxj);

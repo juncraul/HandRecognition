@@ -48,21 +48,21 @@ namespace HandRecognition
 
         private void DrawArray(string line, bool excludFirstElement = false)
         {
-            string[] values = (excludFirstElement ? line.Substring(2) : line).Split(',');
+            var values = (excludFirstElement ? line.Substring(2) : line).Split(',');
 
             DrawArray(values);
         }
 
         private void DrawArray(string[] arr)
         {
-            SolidBrush brush = new SolidBrush(Color.Black);
+            var brush = new SolidBrush(Color.Black);
             brush.Color = Color.Red;
             graphics.FillRectangle(brush, 0, 0, 1000, 1000);
 
-            for (int i = 0; i < 28; i++)
-                for (int j = 0; j < 28; j++)
+            for (var i = 0; i < 28; i++)
+                for (var j = 0; j < 28; j++)
                 {
-                    int value = 255 - int.Parse(arr[i * 28 + j]);
+                    var value = 255 - int.Parse(arr[i * 28 + j]);
                     brush.Color = Color.FromArgb(value, value, value);
                     graphics.FillRectangle(brush, j * 10, i * 10, 10, 10);
                 }
@@ -71,7 +71,7 @@ namespace HandRecognition
 
         private void buttonNext_Click(object sender, EventArgs e)
         {
-            Matrix mat = network.QueryNetwrok(GetMatrix(trainings[index], true));
+            var mat = network.QueryNetwork(GetMatrix(trainings[index], true));
             DrawArray(trainings[index++], true);
 
             MessageBox.Show(mat.ToString());
@@ -84,9 +84,9 @@ namespace HandRecognition
 
         private Matrix CreateTargetResult(int number)
         {
-            Matrix temp = new Matrix(10, 1);
+            var temp = new Matrix(10, 1);
 
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 if (number == i)
                 {
@@ -103,11 +103,11 @@ namespace HandRecognition
 
         private Matrix GetMatrix(string line, bool excludFirstElement = false)
         {
-            Matrix temp = new Matrix(28 * 28, 1);
-            string[] values = (excludFirstElement ? line.Substring(2) : line).Split(',');
+            var temp = new Matrix(28 * 28, 1);
+            var values = (excludFirstElement ? line.Substring(2) : line).Split(',');
 
-            for (int i = 0; i < 28; i++)
-                for (int j = 0; j < 28; j++)
+            for (var i = 0; i < 28; i++)
+                for (var j = 0; j < 28; j++)
                     temp.TheMatrix[28 * i + j, 0] = ScaleInput(int.Parse(values[28 * i + j]));
 
             return temp;
@@ -115,21 +115,21 @@ namespace HandRecognition
 
         private void buttonTrain_Click(object sender, EventArgs e)
         {
-            int count = 0;
-            StreamReader stream = new StreamReader(textBoxPathTrain.Text);
-            string line = "";
+            var count = 0;
+            var stream = new StreamReader(textBoxPathTrain.Text);
+            var line = "";
             while ((line = stream.ReadLine()) != null)
             {
                 trainings.Add(line);
             }
 
-            foreach (string t in trainings)
+            foreach (var t in trainings)
             {
-                Matrix inputMatrix = GetMatrix(t, true);
-                int target = int.Parse(t.Substring(0, 1));
-                Matrix targetMatrix = CreateTargetResult(target);
+                var inputMatrix = GetMatrix(t, true);
+                var target = int.Parse(t.Substring(0, 1));
+                var targetMatrix = CreateTargetResult(target);
 
-                network.TrainNetwrok(inputMatrix, targetMatrix);
+                network.TrainNetwork(inputMatrix, targetMatrix);
                 count++;
 
 
@@ -152,23 +152,23 @@ namespace HandRecognition
 
         private void buttonTest_Click(object sender, EventArgs e)
         {
-            int total = 0;
-            int correct = 0;
-            StreamReader stream = new StreamReader(textBoxPathTest.Text);
-            string line = "";
+            var total = 0;
+            var correct = 0;
+            var stream = new StreamReader(textBoxPathTest.Text);
+            var line = "";
             while ((line = stream.ReadLine()) != null)
             {
                 tests.Add(line);
             }
 
-            foreach (string s in tests)
+            foreach (var s in tests)
             {
-                Matrix inputMatrix = GetMatrix(s, true);
-                int target = int.Parse(s.Substring(0, 1));
-                Matrix targetMatrix = CreateTargetResult(target);
+                var inputMatrix = GetMatrix(s, true);
+                var target = int.Parse(s.Substring(0, 1));
+                var targetMatrix = CreateTargetResult(target);
 
-                Matrix mat = network.QueryNetwrok(inputMatrix);
-                int actualValue = mat.GetMaxValueIndex();
+                var mat = network.QueryNetwork(inputMatrix);
+                var actualValue = mat.GetMaxValueIndex();
                 total++;
                 correct += target == actualValue ? 1 : 0;
 
@@ -184,57 +184,57 @@ namespace HandRecognition
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Network n = new Network();
+            var n = new Network();
             n.InitializeNetwork(3, 4, 1, 0.3f);
 
-            for (int i = 0; i < 60000; i++)
+            for (var i = 0; i < 60000; i++)
             {
-                Matrix inputMatrix1 = new Matrix(3, 1);
+                var inputMatrix1 = new Matrix(3, 1);
                 inputMatrix1.TheMatrix[0, 0] = 0.01f;
                 inputMatrix1.TheMatrix[1, 0] = 0.01f;
                 inputMatrix1.TheMatrix[2, 0] = 1;
-                Matrix targetMatrix1 = new Matrix(1, 1);
+                var targetMatrix1 = new Matrix(1, 1);
                 targetMatrix1.TheMatrix[0, 0] = 0;
-                n.TrainNetwrok(inputMatrix1, targetMatrix1);
+                n.TrainNetwork(inputMatrix1, targetMatrix1);
 
-                Matrix inputMatrix2 = new Matrix(3, 1);
+                var inputMatrix2 = new Matrix(3, 1);
                 inputMatrix2.TheMatrix[0, 0] = 0.01f;
                 inputMatrix2.TheMatrix[1, 0] = 1;
                 inputMatrix2.TheMatrix[2, 0] = 1;
-                Matrix targetMatrix2 = new Matrix(1, 1);
+                var targetMatrix2 = new Matrix(1, 1);
                 targetMatrix2.TheMatrix[0, 0] = 1;
-                n.TrainNetwrok(inputMatrix2, targetMatrix2);
+                n.TrainNetwork(inputMatrix2, targetMatrix2);
 
-                Matrix inputMatrix3 = new Matrix(3, 1);
+                var inputMatrix3 = new Matrix(3, 1);
                 inputMatrix3.TheMatrix[0, 0] = 1;
                 inputMatrix3.TheMatrix[1, 0] = 0.01f;
                 inputMatrix3.TheMatrix[2, 0] = 1;
-                Matrix targetMatrix3 = new Matrix(1, 1);
+                var targetMatrix3 = new Matrix(1, 1);
                 targetMatrix3.TheMatrix[0, 0] = 1;
-                n.TrainNetwrok(inputMatrix3, targetMatrix3);
+                n.TrainNetwork(inputMatrix3, targetMatrix3);
 
-                Matrix inputMatrix4 = new Matrix(3, 1);
+                var inputMatrix4 = new Matrix(3, 1);
                 inputMatrix4.TheMatrix[0, 0] = 1;
                 inputMatrix4.TheMatrix[1, 0] = 1;
                 inputMatrix4.TheMatrix[2, 0] = 1;
-                Matrix targetMatrix4 = new Matrix(1, 1);
+                var targetMatrix4 = new Matrix(1, 1);
                 targetMatrix4.TheMatrix[0, 0] = 0;
-                n.TrainNetwrok(inputMatrix4, targetMatrix4);
+                n.TrainNetwork(inputMatrix4, targetMatrix4);
 
                 if (i % 100 == 0)
                 {
                     double error = 0;
                     double output;
-                    output = n.QueryNetwrok(inputMatrix1).TheMatrix[0, 0];
+                    output = n.QueryNetwork(inputMatrix1).TheMatrix[0, 0];
                     error += Math.Abs(output - targetMatrix1.TheMatrix[0, 0]);
 
-                    output = n.QueryNetwrok(inputMatrix2).TheMatrix[0, 0];
+                    output = n.QueryNetwork(inputMatrix2).TheMatrix[0, 0];
                     error += Math.Abs(output - targetMatrix2.TheMatrix[0, 0]);
 
-                    output = n.QueryNetwrok(inputMatrix3).TheMatrix[0, 0];
+                    output = n.QueryNetwork(inputMatrix3).TheMatrix[0, 0];
                     error += Math.Abs(output - targetMatrix3.TheMatrix[0, 0]);
 
-                    output = n.QueryNetwrok(inputMatrix4).TheMatrix[0, 0];
+                    output = n.QueryNetwork(inputMatrix4).TheMatrix[0, 0];
                     error += Math.Abs(output - targetMatrix4.TheMatrix[0, 0]);
 
                     Console.WriteLine(error);
@@ -247,7 +247,7 @@ namespace HandRecognition
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             if (!drawOnCanvas) return;
-            SolidBrush brush = new SolidBrush(Color.Black);
+            var brush = new SolidBrush(Color.Black);
             graphics.FillRectangle(brush, e.X, e.Y, 10, 10);
 
             pictureBox1.Image = bitmap;
@@ -255,7 +255,7 @@ namespace HandRecognition
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            SolidBrush brush = new SolidBrush(Color.Black);
+            var brush = new SolidBrush(Color.Black);
             brush.Color = Color.Blue;
             graphics.FillRectangle(brush, 0, 0, 1000, 1000);
             drawOnCanvas = true;
@@ -266,24 +266,24 @@ namespace HandRecognition
             drawOnCanvas = false;
 
             if (pictureBox1.Image == null) return;
-            string text = ReadCanvas();
+            var text = ReadCanvas();
 
-            Matrix mat = network.QueryNetwrok(GetMatrix(text));
+            var mat = network.QueryNetwork(GetMatrix(text));
             DrawArray(text);
 
-            mat.Max(out int maxi, out int maxj);
+            mat.Max(out var maxi, out var maxj);
             MessageBox.Show(mat.ToString() + Environment.NewLine + "Your number is: " + maxi);
         }
 
         private string ReadCanvas()
         {
-            string temp = "";
-            Bitmap bitmap = new Bitmap(pictureBox1.Image);
-            for (int i = 0; i < 28; i++)
+            var temp = "";
+            var bitmap = new Bitmap(pictureBox1.Image);
+            for (var i = 0; i < 28; i++)
             {
-                for (int j = 0; j < 28; j++)
+                for (var j = 0; j < 28; j++)
                 {
-                    Color color = bitmap.GetPixel(j * 10, i * 10);
+                    var color = bitmap.GetPixel(j * 10, i * 10);
                     temp += color.B < 50 ? "255" : "0";
                     if (i != 27 || j != 27)
                     {

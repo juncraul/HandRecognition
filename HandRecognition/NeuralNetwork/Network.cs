@@ -30,32 +30,32 @@ namespace NeuralNetwork
             HiddenLayer.Weights.GenerateRandomValuesBetween(-Math.Pow(OutputNodes, -0.5), Math.Pow(OutputNodes, -0.5));
         }
 
-        public void TrainNetwrok(Matrix inputs, Matrix target)
+        public void TrainNetwork(Matrix inputs, Matrix target)
         {
-            OutputLayer.Output = QueryNetwrok(inputs);
+            OutputLayer.Output = QueryNetwork(inputs);
             OutputLayer.Errors = target - OutputLayer.Output;
             HiddenLayer.Errors = HiddenLayer.Weights.Transpose() * OutputLayer.Errors;
-            Matrix HiddenLayer_Output_Transpose = InputLayer.Output.Transpose();
-            Matrix inputs_Transpose = inputs.Transpose();
+            var hiddenLayerOutputTranspose = InputLayer.Output.Transpose();
+            var inputsTranspose = inputs.Transpose();
 
-            for (int i = 0; i < OutputLayer.Errors.Lines; i ++)
+            for (var i = 0; i < OutputLayer.Errors.Lines; i ++)
             {
-                double change = (OutputLayer.Errors.TheMatrix[i, 0] * OutputLayer.Output.TheMatrix[i, 0] * (1.0 - OutputLayer.Output.TheMatrix[i, 0]));
-                HiddenLayer.Weights.AddToLine(LearningRate * (change * HiddenLayer_Output_Transpose), i);
+                var change = (OutputLayer.Errors.TheMatrix[i, 0] * OutputLayer.Output.TheMatrix[i, 0] * (1.0 - OutputLayer.Output.TheMatrix[i, 0]));
+                HiddenLayer.Weights.AddToLine(LearningRate * (change * hiddenLayerOutputTranspose), i);
             }
 
-            for (int i = 0; i < HiddenLayer.Errors.Lines; i++)
+            for (var i = 0; i < HiddenLayer.Errors.Lines; i++)
             {
-                double change = (HiddenLayer.Errors.TheMatrix[i, 0] * InputLayer.Output.TheMatrix[i, 0] * (1.0 - InputLayer.Output.TheMatrix[i, 0]));
-                InputLayer.Weights.AddToLine(LearningRate * (change * inputs_Transpose), i);
+                var change = (HiddenLayer.Errors.TheMatrix[i, 0] * InputLayer.Output.TheMatrix[i, 0] * (1.0 - InputLayer.Output.TheMatrix[i, 0]));
+                InputLayer.Weights.AddToLine(LearningRate * (change * inputsTranspose), i);
             }
         }
 
-        public Matrix QueryNetwrok(Matrix inputs)
+        public Matrix QueryNetwork(Matrix inputs)
         {
             InputLayer.Output = InputLayer.Weights * inputs;
 
-            for (int i = 0; i < HiddenNodes; i++)
+            for (var i = 0; i < HiddenNodes; i++)
             {
                 InputLayer.Output.TheMatrix[i, 0] = ActivationFunction(InputLayer.Output.TheMatrix[i, 0]);
             }
@@ -63,7 +63,7 @@ namespace NeuralNetwork
             HiddenLayer.Output = HiddenLayer.Weights * InputLayer.Output;
             OutputLayer.Output = new Matrix(OutputNodes, 1);
 
-            for (int i = 0; i < OutputNodes; i++)
+            for (var i = 0; i < OutputNodes; i++)
             {
                 OutputLayer.Output.TheMatrix[i, 0] = ActivationFunction(HiddenLayer.Output.TheMatrix[i, 0]);
             }
